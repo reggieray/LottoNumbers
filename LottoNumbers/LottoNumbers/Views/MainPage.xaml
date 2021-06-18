@@ -2,10 +2,60 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LottoNumbers.Views.MainPage"
-             Title="{Binding Title}">
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
+    <ContentPage.Resources>
+        <DataTemplate x:Key="BallTemplate">
+                <Grid Margin="3"
+                      HeightRequest="100"
+                      WidthRequest="100">
+                
+                    <BoxView Color="{Binding BallColor}" CornerRadius="48" />
+                    <Label Text="{Binding Number}"
+                           FontSize="Large"
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource SecondaryTextColor}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+           
+                </Grid>
+        </DataTemplate>
+    </ContentPage.Resources>
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
-    </StackLayout>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Settings"
+                     Order="Primary"
+                     Command="{Binding SettingsNavigationCommand}"
+                     Priority="0" />
+    </ContentPage.ToolbarItems>
 
+    <Grid>
+        
+        <FlexLayout Direction="Row"
+                    VerticalOptions="Center" HorizontalOptions="Center" 
+                    Wrap="Wrap"
+                    Margin="10"
+                    JustifyContent="SpaceEvenly"
+                    AlignItems="Center"
+                    AlignContent="Center"
+                    BindableLayout.ItemsSource="{Binding LottoNumbers}"
+                    BindableLayout.ItemTemplate="{StaticResource BallTemplate}" >
+        </FlexLayout>
+
+        <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+
+         <StackLayout VerticalOptions="End" Margin="5">
+
+             <Picker Title="Select a game"
+                     ItemsSource="{Binding LottoGames}"
+                     ItemDisplayBinding="{Binding DisplayName}"
+                     SelectedItem="{Binding SelectedGame}"/>
+
+             <Button Text="Generate Numbers"
+                Command="{Binding GenerateNumbersCommand}"
+                BackgroundColor="{DynamicResource ButtonColor}"
+                TextColor="{DynamicResource SecondaryTextColor}"/>
+         </StackLayout>
+
+     </Grid>
+    
 </ContentPage>

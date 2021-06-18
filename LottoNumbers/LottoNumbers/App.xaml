@@ -4,8 +4,6 @@
              xmlns:prism="http://prismlibrary.com"
              x:Class="LottoNumbers.App">
   <Application.Resources>
-
-    <!-- Application resource dictionary -->
-
-  </Application.Resources>
+        <ResourceDictionary Source="Themes/LightTheme.xaml" />
+    </Application.Resources>
 </prism:PrismApplication>

@@ -1,3 +1,4 @@
+using LottoNumbers.Services;
 using LottoNumbers.ViewModels;
 using LottoNumbers.Views;
 using Prism;
@@ -28,6 +29,9 @@ namespace LottoNumbers
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
+
+            containerRegistry.RegisterSingleton<ILottoGameService, LottoGameService>();
         }
     }
 }

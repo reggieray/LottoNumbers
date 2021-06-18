@@ -1,6 +1,8 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using LottoNumbers.Droid.Services;
+using LottoNumbers.Services;
 using Prism;
 using Prism.Ioc;
 
@@ -34,6 +36,7 @@ namespace LottoNumbers.Droid
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Register any platform specific implementations
+            containerRegistry.RegisterSingleton<IRemoteConfigService, AndroidRemoteConfigService>();
         }
     }
 }

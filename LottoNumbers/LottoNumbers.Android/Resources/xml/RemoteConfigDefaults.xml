@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>games</key>
+        <value>[{"GameKey": "LOTTO","DisplayName": "Lotto"},{"GameKey": "EURO_MILLIONS", "DisplayName": "Euro Millions"}]</value>
+    </entry>
+    <entry>
+        <key>game_settings</key>
+        <value>{
+          "LOTTO": {
+            "Count": 6,
+            "Min": 1,
+            "Max": 60,
+            "BallColor": "RED",
+            "HasBounsNumber": false,
+            "BonusNumberCount": 0,
+            "BonusNumberMin": 0,
+            "BonusNumberMax": 0,
+            "BonusBallColor": null
+          },
+          "EURO_MILLIONS": {
+            "Count": 5,
+            "Min": 1,
+            "Max": 51,
+            "BallColor": "BLUE",
+            "HasBounsNumber": true,
+            "BonusNumberCount": 2,
+            "BonusNumberMin": 1,
+            "BonusNumberMax": 13,
+            "BonusBallColor": "GOLD"
+          }
+        }</value>
+    </entry>
+</defaultsMap>
