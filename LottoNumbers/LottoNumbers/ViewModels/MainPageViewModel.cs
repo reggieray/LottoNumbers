@@ -1,33 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
 using LottoNumbers.Models;
 using LottoNumbers.Services;
 using LottoNumbers.Views;
 using Prism.Commands;
 using Prism.Navigation;
-using Xamarin.Forms.Internals;
 
 namespace LottoNumbers.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
         private readonly ILottoGameService _lottoNumberService;
-
-        private string _hasBonusBall;
-        public string HasBonusBall
-        {
-            get { return _hasBonusBall; }
-            set { SetProperty(ref _hasBonusBall, value); }
-        }
-
-        private int _numbersToGenerate;
-        public int NumbersToGenerate
-        {
-            get { return _numbersToGenerate; }
-            set { SetProperty(ref _numbersToGenerate, value); }
-        }
 
         private bool _isLoading;
         public bool IsLoading

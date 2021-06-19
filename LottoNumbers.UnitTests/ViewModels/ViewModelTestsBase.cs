@@ -6,13 +6,12 @@ namespace LottoNumbers.UnitTests.ViewModels
 {
     public abstract class ViewModelTestsBase<TViewModel> where TViewModel : ViewModelBase
     {
-        protected TViewModel viewModel;
-
-        Mock<PropertyChangedEventHandler> mockPropertyChangedEventHandler ;
+        protected TViewModel ViewModel;
+        protected readonly Mock<PropertyChangedEventHandler> MockPropertyChangedEventHandler = new Mock<PropertyChangedEventHandler>();
 
         protected virtual void SetupOnPropertyChanged()
         {
-            viewModel.PropertyChanged += mockPropertyChangedEventHandler.Object;
+            ViewModel.PropertyChanged += MockPropertyChangedEventHandler.Object;
         }
     }
 }
