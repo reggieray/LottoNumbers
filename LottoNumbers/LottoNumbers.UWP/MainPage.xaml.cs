@@ -1,4 +1,6 @@
-﻿using Prism;
+﻿using LottoNumbers.Services;
+using LottoNumbers.UWP.Services;
+using Prism;
 using Prism.Ioc;
 using System;
 using System.Collections.Generic;
@@ -31,6 +33,7 @@ namespace LottoNumbers.UWP
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IRemoteConfigService, UWPRemoteConfigService>();
             // Register any platform specific implementations
         }
     }

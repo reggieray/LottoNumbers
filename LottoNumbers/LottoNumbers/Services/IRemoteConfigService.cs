@@ -6,6 +6,6 @@ namespace LottoNumbers.Services
     {
         Task FetchAndActivateAsync();
 
-        Task<IOutput> GetAsync<IOutput>(string key);
+        Task<TOutput> GetAsync<TOutput>(string key);
     }
 }
