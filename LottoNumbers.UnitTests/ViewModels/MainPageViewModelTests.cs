@@ -53,6 +53,7 @@ namespace LottoNumbers.UnitTests.ViewModels
             var gameKey = default(string);
 
             this.Given(_ => _.AUserNavigatesToTheMainPage())
+            .And(_ => _.TheUserIsShownGamesToPick())
             .And(_ => _.TheUserSelectsALottoGame(gameKey))
             .When(_ => _.TheUserClicksGenerateNumbers())
             .Then(_ => _.TheLottoNumbersAreShown())
@@ -69,6 +70,12 @@ namespace LottoNumbers.UnitTests.ViewModels
         {
             MockPropertyChangedEventHandler.Invocations.Clear();
             ViewModel.Initialize(mockNavigationParameters.Object);
+        }
+
+        private void TheUserIsShownGamesToPick()
+        {
+            MockPropertyChangedEventHandler
+                .Verify(x => x.Invoke(It.IsAny<object>(), It.Is<PropertyChangedEventArgs>(x => x.PropertyName == nameof(ViewModel.LottoGames))), Times.Once);
         }
 
         private void TheUserSelectsALottoGame(string gameKey)

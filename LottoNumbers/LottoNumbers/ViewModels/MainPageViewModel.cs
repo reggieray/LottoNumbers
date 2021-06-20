@@ -11,11 +11,11 @@ namespace LottoNumbers.ViewModels
     {
         private readonly ILottoGameService _lottoNumberService;
 
-        private bool _isLoading;
-        public bool IsLoading
+        private bool _showLuckyCat = true;
+        public bool ShowLuckyCat
         {
-            get { return _isLoading; }
-            set { SetProperty(ref _isLoading, value); }
+            get { return _showLuckyCat; }
+            set { SetProperty(ref _showLuckyCat, value); }
         }
 
         private LottoGame _selectedGame;
@@ -55,12 +55,10 @@ namespace LottoNumbers.ViewModels
 
         public async override void Initialize(INavigationParameters parameters)
         {
-            IsLoading = true;
             base.Initialize(parameters);
             await _lottoNumberService.FetchLatestConfigAsync();
             var lottoGames = await _lottoNumberService.GetGamesAsync();
             LottoGames = new List<LottoGame>(lottoGames);
-            IsLoading = false;
         }
 
         private bool CanGenerateNumbers()
@@ -70,10 +68,9 @@ namespace LottoNumbers.ViewModels
 
         private async void OnGenerateNumbers()
         {
-            IsLoading = true;
+            ShowLuckyCat = false;
             var lottoNumbers = await _lottoNumberService.GenerateNumbersAsync(_selectedGame.GameKey);
             LottoNumbers = new List<LottoNumber>(lottoNumbers);
-            IsLoading = false;
         }
 
         private async void OnNavigateToSettings()

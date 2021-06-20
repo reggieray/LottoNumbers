@@ -2,14 +2,22 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LottoNumbers.Views.MainPage"
-             BackgroundColor="{DynamicResource PageBackgroundColor}">
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             xmlns:xamanimation="clr-namespace:Xamanimation;assembly=Xamanimation">
     <ContentPage.Resources>
         <DataTemplate x:Key="BallTemplate">
                 <Grid Margin="3"
                       HeightRequest="100"
                       WidthRequest="100">
+                    <Grid.Behaviors>
+                        <xamanimation:EntranceTransition
+                        Duration="300"  />
+                    </Grid.Behaviors>
                 
-                    <BoxView Color="{Binding BallColor}" CornerRadius="48" />
+                    <BoxView Color="{Binding BallColor}"
+                             CornerRadius="48" />
+
                     <Label Text="{Binding Number}"
                            FontSize="Large"
                            FontAttributes="Bold"
@@ -29,31 +37,41 @@
     </ContentPage.ToolbarItems>
 
     <Grid>
-        
+
+        <lottie:AnimationView
+            Margin="50"
+            IsVisible="{Binding ShowLuckyCat}"
+	        Animation="luckycat.json" 
+	        AutoPlay="true"
+            Loop="true"
+            VerticalOptions="FillAndExpand" 
+            HorizontalOptions="FillAndExpand" />
+
         <FlexLayout Direction="Row"
-                    VerticalOptions="Center" HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center" 
                     Wrap="Wrap"
                     Margin="10"
                     JustifyContent="SpaceEvenly"
-                    AlignItems="Center"
+                    AlignItems="Center" 
                     AlignContent="Center"
                     BindableLayout.ItemsSource="{Binding LottoNumbers}"
-                    BindableLayout.ItemTemplate="{StaticResource BallTemplate}" >
-        </FlexLayout>
+                    BindableLayout.ItemTemplate="{StaticResource BallTemplate}" />
 
-        <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
-
-         <StackLayout VerticalOptions="End" Margin="5">
+        <StackLayout VerticalOptions="End"
+                      Margin="10">
 
              <Picker Title="Select a game"
+                     TextColor="{DynamicResource PrimaryTextColor}"
                      ItemsSource="{Binding LottoGames}"
                      ItemDisplayBinding="{Binding DisplayName}"
                      SelectedItem="{Binding SelectedGame}"/>
 
              <Button Text="Generate Numbers"
-                Command="{Binding GenerateNumbersCommand}"
-                BackgroundColor="{DynamicResource ButtonColor}"
-                TextColor="{DynamicResource SecondaryTextColor}"/>
+                     Command="{Binding GenerateNumbersCommand}"
+                     BackgroundColor="{DynamicResource ButtonColor}"
+                     TextColor="{DynamicResource SecondaryTextColor}"/>
+
          </StackLayout>
 
      </Grid>
