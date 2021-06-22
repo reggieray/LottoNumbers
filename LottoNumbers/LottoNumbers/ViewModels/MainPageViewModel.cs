@@ -43,6 +43,8 @@ namespace LottoNumbers.ViewModels
 
         public DelegateCommand SettingsNavigationCommand { get; }
 
+        public DelegateCommand ShowLuckyCatCommand { get; }
+
         public MainPageViewModel(
             INavigationService navigationService,
             ILottoGameService lottoNumberService)
@@ -51,6 +53,7 @@ namespace LottoNumbers.ViewModels
             _lottoNumberService = lottoNumberService;
             GenerateNumbersCommand = new DelegateCommand(OnGenerateNumbers, CanGenerateNumbers).ObservesProperty(() => SelectedGame);
             SettingsNavigationCommand = new DelegateCommand(OnNavigateToSettings);
+            ShowLuckyCatCommand = new DelegateCommand(OnShowLuckyCat);
         }
 
         public async override void Initialize(INavigationParameters parameters)
@@ -76,6 +79,11 @@ namespace LottoNumbers.ViewModels
         private async void OnNavigateToSettings()
         {
             await NavigationService.NavigateAsync($"{nameof(SettingsPage)}");
+        }
+
+        private void OnShowLuckyCat()
+        {
+            ShowLuckyCat = true;
         }
     }
 }

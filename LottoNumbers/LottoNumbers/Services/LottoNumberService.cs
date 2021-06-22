@@ -20,7 +20,7 @@ namespace LottoNumbers.Services
         private const string GamesKey = "games";
         private const string GameSettingsKey = "game_settings";
 
-        private readonly Random random = new Random();
+        private readonly Random random = new Random(DateTime.Parse("1986-12-12").Millisecond);
         private readonly IRemoteConfigService _remoteConfigService;
 
         public LottoGameService(IRemoteConfigService remoteConfigService)

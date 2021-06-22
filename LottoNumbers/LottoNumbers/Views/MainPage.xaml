@@ -4,7 +4,8 @@
              x:Class="LottoNumbers.Views.MainPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
              xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
-             xmlns:xamanimation="clr-namespace:Xamanimation;assembly=Xamanimation">
+             xmlns:xamanimation="clr-namespace:Xamanimation;assembly=Xamanimation"
+             xmlns:converters="clr-namespace:LottoNumbers.Converters">
     <ContentPage.Resources>
         <DataTemplate x:Key="BallTemplate">
                 <Grid Margin="3"
@@ -27,6 +28,7 @@
            
                 </Grid>
         </DataTemplate>
+        <converters:InverseBoolConverter x:Key="inverseBoolConverter" />
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
@@ -48,6 +50,7 @@
             HorizontalOptions="FillAndExpand" />
 
         <FlexLayout Direction="Row"
+                    IsVisible="{Binding ShowLuckyCat, Converter={StaticResource inverseBoolConverter}}"
                     VerticalOptions="Center"
                     HorizontalOptions="Center" 
                     Wrap="Wrap"
@@ -61,7 +64,15 @@
         <StackLayout VerticalOptions="End"
                       Margin="10">
 
-             <Picker Title="Select a game"
+            <Label HorizontalTextAlignment="Center"
+                   Text="Show Lucky Cat"
+                   IsVisible="{Binding ShowLuckyCat, Converter={StaticResource inverseBoolConverter}}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ShowLuckyCatCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Picker Title="Select a game"
                      TextColor="{DynamicResource PrimaryTextColor}"
                      ItemsSource="{Binding LottoGames}"
                      ItemDisplayBinding="{Binding DisplayName}"

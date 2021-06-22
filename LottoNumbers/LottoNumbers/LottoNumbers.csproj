@@ -18,11 +18,13 @@
     <None Remove="Themes\" />
     <None Remove="Com.Airbnb.Xamarin.Forms.Lottie" />
     <None Remove="Xamanimation" />
+    <None Remove="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Services\" />
     <Folder Include="Themes\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Themes\LightTheme %28copy%29.xaml.cs">
