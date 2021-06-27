@@ -22,7 +22,7 @@
             
             <controls:LabeledSwitch 
                 Title="Use date seed"
-                Detail="The ticks of the date will get used to seed the random number genrator. This will always produce the same generated numbers" 
+                Detail="The number ticks that represent the date will get used to seed the random number genrator. This will always produce the same generated numbers." 
                 Margin="5"
                 IsChecked="{Binding UsePseudorandomSeed, Mode=TwoWay}" />
 
@@ -38,7 +38,16 @@
             <BoxView Style="{StaticResource Separator}" />
 
             <Label Text="About" FontSize="Large" />
-            <Label Text="This app uses a pseudorandom number generator" />
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="This app uses a " />
+                        <controls:HyperlinkSpan Text="pseudorandom number generator"
+                                                Url="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" />
+                        <Span Text=" to generate numbers" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
 
         </StackLayout>
     </ContentPage.Content>
