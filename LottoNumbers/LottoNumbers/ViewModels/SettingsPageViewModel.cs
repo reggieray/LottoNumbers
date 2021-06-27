@@ -18,7 +18,10 @@ namespace LottoNumbers.ViewModels
             set
             {
                 SetProperty(ref _selectedTheme, value);
-                _settingsService.SetTheme(_selectedTheme.Type);
+                if (_selectedTheme != null)
+                {
+                    _settingsService.SetTheme(_selectedTheme.Type);
+                }
             }
         }
 

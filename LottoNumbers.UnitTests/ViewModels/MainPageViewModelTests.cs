@@ -2,6 +2,7 @@
 using LottoNumbers.Models;
 using LottoNumbers.Services;
 using LottoNumbers.ViewModels;
+using LottoNumbers.Views;
 using Moq;
 using Prism.Navigation;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace LottoNumbers.UnitTests.ViewModels
         {
             var gameKey = default(string);
 
-            this.Given(_ => _.AUserNavigatesToTheMainPage())
+            this.Given(_ => _.AUserIsOnTheMainPage())
             .And(_ => _.TheUserIsShownGamesToPick())
             .And(_ => _.TheUserSelectsALottoGame(gameKey))
             .When(_ => _.TheUserClicksGenerateNumbers())
@@ -66,7 +67,56 @@ namespace LottoNumbers.UnitTests.ViewModels
             .BDDfy();
         }
 
-        private void AUserNavigatesToTheMainPage()
+        [Fact]
+        public void UserClicksToViewLuckyCat()
+        {
+            this.Given(_ => _.AUserIsOnTheMainPage())
+            .And(_ => _.TheUserIsShownGamesToPick())
+            .And(_ => _.TheUserSelectsALottoGame())
+            .And(_ => _.TheUserClicksGenerateNumbers())
+            .And(_ => _.TheLottoNumbersAreShown())
+            .And(_ => _.TheNumbersAreCorrectForGame())
+            .And(_ => _.TheLuckyCatIsNotVisible())
+            .When(_ => _.TheUserClicksShowLuckyCat())
+            .Then(_ => _.TheLuckyCatIsVisible())
+            .BDDfy();
+        }
+
+        [Fact]
+        public void UserNavigatesToSettings()
+        {
+            this.Given(_ => _.AUserIsOnTheMainPage())
+            .When(_ => _.TheUserClicksToNavigateToSettingsPage())
+            .Then(_ => _.TheUserIsNavigatedToSettingsPage())
+            .BDDfy();
+        }
+
+        private void TheUserIsNavigatedToSettingsPage()
+        {
+            mockNavigationService.Verify(c => c.NavigateAsync(nameof(SettingsPage)), Times.Once);
+        }
+
+        private void TheUserClicksToNavigateToSettingsPage()
+        {
+            ViewModel.SettingsNavigationCommand.Execute();
+        }
+
+        private void TheLuckyCatIsVisible()
+        {
+            ViewModel.ShowLuckyCat.Should().BeTrue();
+        }
+
+        private void TheUserClicksShowLuckyCat()
+        {
+            ViewModel.ShowLuckyCatCommand.Execute();
+        }
+
+        private void TheLuckyCatIsNotVisible()
+        {
+            ViewModel.ShowLuckyCat.Should().BeFalse();
+        }
+
+        private void AUserIsOnTheMainPage()
         {
             MockPropertyChangedEventHandler.Invocations.Clear();
             ViewModel.Initialize(mockNavigationParameters.Object);
@@ -78,6 +128,11 @@ namespace LottoNumbers.UnitTests.ViewModels
                 .Verify(x => x.Invoke(It.IsAny<object>(), It.Is<PropertyChangedEventArgs>(x => x.PropertyName == nameof(ViewModel.LottoGames))), Times.Once);
         }
 
+        private void TheUserSelectsALottoGame()
+        {
+            TheUserSelectsALottoGame(LottoGames[0].GameKey);
+        }
+
         private void TheUserSelectsALottoGame(string gameKey)
         {
             ViewModel.SelectedGame = ViewModel.LottoGames.First(x => x.GameKey == gameKey);
@@ -85,7 +140,10 @@ namespace LottoNumbers.UnitTests.ViewModels
 
         private void TheUserClicksGenerateNumbers()
         {
-            ViewModel.GenerateNumbersCommand.Execute();
+            if (ViewModel.GenerateNumbersCommand.CanExecute())
+            {
+                ViewModel.GenerateNumbersCommand.Execute();
+            }
         }
 
         private void TheLottoNumbersAreShown()
@@ -93,6 +151,11 @@ namespace LottoNumbers.UnitTests.ViewModels
             MockPropertyChangedEventHandler
                 .Verify(x => x.Invoke(It.IsAny<object>(), It.Is<PropertyChangedEventArgs>(x => x.PropertyName == nameof(ViewModel.LottoNumbers))), Times.Once);
             ViewModel.LottoNumbers.Should().NotBeEmpty();
+        }
+
+        private void TheNumbersAreCorrectForGame()
+        {
+            TheNumbersAreCorrectForGame(LottoGames[0].GameKey);
         }
 
         private void TheNumbersAreCorrectForGame(string gameKey)

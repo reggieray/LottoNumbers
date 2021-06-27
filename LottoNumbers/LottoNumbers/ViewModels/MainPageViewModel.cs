@@ -66,13 +66,13 @@ namespace LottoNumbers.ViewModels
 
         private bool CanGenerateNumbers()
         {
-            return _selectedGame != null;
+            return SelectedGame != null;
         }
 
         private async void OnGenerateNumbers()
         {
             ShowLuckyCat = false;
-            var lottoNumbers = await _lottoNumberService.GenerateNumbersAsync(_selectedGame.GameKey);
+            var lottoNumbers = await _lottoNumberService.GenerateNumbersAsync(SelectedGame.GameKey);
             LottoNumbers = new List<LottoNumber>(lottoNumbers);
         }
 
