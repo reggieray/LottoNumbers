@@ -3,14 +3,43 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="LottoNumbers.Views.SettingsPage"
-    BackgroundColor="{DynamicResource PageBackgroundColor}">
+    xmlns:controls="clr-namespace:LottoNumbers.Controls"
+    BackgroundColor="{DynamicResource PageBackgroundColor}"
+    Title="{Binding Title}">
+    <ContentPage.Resources>
+        <Style x:Key="Separator" TargetType="BoxView">
+            <Setter Property="HeightRequest" Value="1" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            <Setter Property="Color" Value="Gray" />
+            <Setter Property="Margin" Value="0, 5, 0, 5" />
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Margin="10">
-            <Picker Title="Theme"
-                    ItemsSource="{Binding Themes}"
-                    TextColor="{DynamicResource PrimaryTextColor}"
-                    ItemDisplayBinding="{Binding Name}"
-                    SelectedItem ="{Binding SelectedTheme}"/>
+
+            <Label Text="Options" FontSize="Large" />
+            
+            <controls:LabeledSwitch 
+                Title="Use date seed"
+                Detail="The ticks of the date will get used to seed the random number genrator. This will always produce the same generated numbers" 
+                Margin="5"
+                IsChecked="{Binding UsePseudorandomSeed, Mode=TwoWay}" />
+
+            <DatePicker 
+                    Date="{Binding PseudorandomDateSeed}" 
+                    IsEnabled="{Binding UsePseudorandomSeed}" />
+
+            <BoxView Style="{StaticResource Separator}" />
+
+            <Label Text="Attributions" FontSize="Large" />
+            <Label Text="evaschicker / LottieFiles" />
+
+            <BoxView Style="{StaticResource Separator}" />
+
+            <Label Text="About" FontSize="Large" />
+            <Label Text="This app uses a pseudorandom number generator" />
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

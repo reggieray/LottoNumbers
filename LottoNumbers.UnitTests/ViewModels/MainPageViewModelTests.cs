@@ -1,14 +1,17 @@
 ﻿using FluentAssertions;
+using LottoNumbers.Constants;
 using LottoNumbers.Models;
 using LottoNumbers.Services;
 using LottoNumbers.ViewModels;
 using LottoNumbers.Views;
 using Moq;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using TestStack.BDDfy;
+using Xamarin.Essentials.Interfaces;
 using Xunit;
 
 namespace LottoNumbers.UnitTests.ViewModels
@@ -18,32 +21,44 @@ namespace LottoNumbers.UnitTests.ViewModels
         private readonly List<LottoGame> LottoGames = new List<LottoGame>()
                 {
                     new LottoGame { GameKey = "LOTTO", DisplayName = "Lotto" },
-                    new LottoGame { GameKey = "EURO", DisplayName = "Euro" }
+                    new LottoGame { GameKey = "EURO", DisplayName = "Euro" },
+                    new LottoGame { GameKey = "REGIS", DisplayName = "Regis" }
                 };
 
         private readonly Dictionary<string, LottoGameSetting> GameSettings = new Dictionary<string, LottoGameSetting>()
                 {
                     { "LOTTO", new LottoGameSetting { BallColor = "RED", Count = 6, Min = 1, Max = 60 }},
                     { "EURO", new LottoGameSetting { BallColor = "BLUE", Count = 5, Min = 1, Max = 50, HasBounsNumber = true, BonusBallColor = "GOLD", BonusNumberCount = 2, BonusNumberMin = 1, BonusNumberMax = 13 }},
+                    { "REGIS", new LottoGameSetting { BallColor = "PURPLE", Count = 2, Min = 1, Max = 2 }}
                 };
 
         private readonly ILottoGameService lottoGameService;
+        private readonly ISettingsService settingsService;
+        private readonly Mock<IPreferences> mockPreferences;
+        private readonly Mock<IApplicationService> mockApplicationService;
         private readonly Mock<INavigationService> mockNavigationService;
         private readonly Mock<IRemoteConfigService> mockRemoteConfigService;
         private readonly Mock<INavigationParameters> mockNavigationParameters;
 
         public MainPageViewModelTests()
         {
+            mockPreferences = new Mock<IPreferences>();
+            mockApplicationService = new Mock<IApplicationService>();
             mockNavigationParameters = new Mock<INavigationParameters>();
             mockNavigationService = new Mock<INavigationService>();
             mockRemoteConfigService = new Mock<IRemoteConfigService>();
+
+            mockPreferences.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(DateTime.Now.ToString(SettingConstants.DATE_FORMAT));
+
             mockRemoteConfigService.Setup(x => x.GetAsync<List<LottoGame>>(It.IsAny<string>()))
                 .ReturnsAsync(LottoGames);
 
             mockRemoteConfigService.Setup(x => x.GetAsync<Dictionary<string, LottoGameSetting>>(It.IsAny<string>()))
                 .ReturnsAsync(GameSettings);
 
-            lottoGameService = new LottoGameService(mockRemoteConfigService.Object);
+            settingsService = new SettingsService(mockPreferences.Object, mockApplicationService.Object);
+            lottoGameService = new LottoGameService(mockRemoteConfigService.Object, settingsService);
             ViewModel = new MainPageViewModel(mockNavigationService.Object, lottoGameService);
             this.SetupOnPropertyChanged();
         }
@@ -62,7 +77,8 @@ namespace LottoNumbers.UnitTests.ViewModels
             .WithExamples(new ExampleTable("gameKey")
             { 
                 "LOTTO",
-                "EURO"
+                "EURO",
+                "REGIS"
             })
             .BDDfy();
         }
@@ -161,9 +177,9 @@ namespace LottoNumbers.UnitTests.ViewModels
         private void TheNumbersAreCorrectForGame(string gameKey)
         {
             var gameSetting = GameSettings[gameKey];
-            ViewModel.LottoNumbers.Count(x => !x.IsBouns && x.Number >= gameSetting.Min && x.Number < gameSetting.Max)
+            ViewModel.LottoNumbers.Count(x => !x.IsBouns && x.Number >= gameSetting.Min && x.Number <= gameSetting.Max)
                 .Should().Be(gameSetting.Count);
-            ViewModel.LottoNumbers.Count(x => x.IsBouns && x.Number >= gameSetting.BonusNumberMin && x.Number < gameSetting.BonusNumberMax).Should().Be(gameSetting.BonusNumberCount);
+            ViewModel.LottoNumbers.Count(x => x.IsBouns && x.Number >= gameSetting.BonusNumberMin && x.Number <= gameSetting.BonusNumberMax).Should().Be(gameSetting.BonusNumberCount);
         }
     }
 }

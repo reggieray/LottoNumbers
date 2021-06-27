@@ -118,32 +118,56 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="games" xml:space="preserve">
-    <value>[{"GameKey": "LOTTO","DisplayName": "Lotto"},{"GameKey": "EURO_MILLIONS", "DisplayName": "Euro Millions"}]</value>
+    <value>[
+  {
+    "GameKey": "LOTTO",
+    "DisplayName": "Lotto"
+  },
+  {
+    "GameKey": "EURO_MILLIONS",
+    "DisplayName": "Euro Millions"
+  },
+  {
+    "GameKey": "SET_FOR_LIFE",
+    "DisplayName": "Set For Life"
+  }
+]</value>
   </data>
   <data name="game_settings" xml:space="preserve">
     <value>{
-          "LOTTO": {
-            "Count": 6,
-            "Min": 1,
-            "Max": 60,
-            "BallColor": "RED",
-            "HasBounsNumber": false,
-            "BonusNumberCount": 0,
-            "BonusNumberMin": 0,
-            "BonusNumberMax": 0,
-            "BonusBallColor": null
-          },
-          "EURO_MILLIONS": {
-            "Count": 5,
-            "Min": 1,
-            "Max": 51,
-            "BallColor": "BLUE",
-            "HasBounsNumber": true,
-            "BonusNumberCount": 2,
-            "BonusNumberMin": 1,
-            "BonusNumberMax": 13,
-            "BonusBallColor": "GOLD"
-          }
-        }</value>
+  "LOTTO": {
+    "Count": 6,
+    "Min": 1,
+    "Max": 59,
+    "BallColor": "RED",
+    "HasBounsNumber": false,
+    "BonusNumberCount": 0,
+    "BonusNumberMin": 0,
+    "BonusNumberMax": 0,
+    "BonusBallColor": null
+  },
+  "EURO_MILLIONS": {
+    "Count": 5,
+    "Min": 1,
+    "Max": 50,
+    "BallColor": "BLUE",
+    "HasBounsNumber": true,
+    "BonusNumberCount": 2,
+    "BonusNumberMin": 1,
+    "BonusNumberMax": 12,
+    "BonusBallColor": "GOLD"
+  },
+  "SET_FOR_LIFE": {
+    "Count": 5,
+    "Min": 1,
+    "Max": 47,
+    "BallColor": "BLUE",
+    "HasBounsNumber": true,
+    "BonusNumberCount": 1,
+    "BonusNumberMin": 1,
+    "BonusNumberMax": 10,
+    "BonusBallColor": "TEAL"
+  }
+}</value>
   </data>
 </root>

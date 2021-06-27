@@ -12,6 +12,10 @@ namespace LottoNumbers.Services
         Theme GetCurrentTheme();
         void SetTheme(ThemeType type);
         void LoadTheme();
+        void SetString(string key, string value);
+        string GetString(string key, string defaultValue);
+        void SetBool(string key, bool value);
+        bool GetBool(string key, bool defaultValue);
     }
 
     public class SettingsService : ISettingsService
@@ -28,12 +32,16 @@ namespace LottoNumbers.Services
             _preferences = preferences;
             _applicationService = applicationService;
         }
-
+        
         public Theme GetCurrentTheme()
         {
             var savedTheme = (ThemeType)_preferences.Get(CURRENT_THEME_KEY, (int)ThemeType.Light);
             return GetThemes().Single(x => x.Type == savedTheme);
         }
+
+        public bool GetBool(string key, bool defaultValue) => _preferences.Get(key, defaultValue);
+
+        public string GetString(string key, string defaultValue) => _preferences.Get(key, defaultValue);
 
         public List<Theme> GetThemes()
         {
@@ -45,6 +53,10 @@ namespace LottoNumbers.Services
         }
 
         public void LoadTheme() => SetTheme(GetCurrentTheme().Type);
+
+        public void SetBool(string key, bool value) => _preferences.Set(key, value);
+
+        public void SetString(string key, string value) => _preferences.Set(key, value);
 
         public void SetTheme(ThemeType type)
         {

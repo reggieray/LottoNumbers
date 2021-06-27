@@ -11,6 +11,6 @@
     <Color x:Key="SecondaryTextColor">White</Color>
     <Color x:Key="TertiaryTextColor">Gray</Color>
     <Color x:Key="TransparentColor">Transparent</Color>
-    <Color x:Key="ButtonColor">#020c7e</Color>
+    <Color x:Key="ButtonColor">#00A5F2</Color>
 
 </ResourceDictionary>
