@@ -23,9 +23,6 @@
     <None Remove="Moq" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\LottoNumbers\LottoNumbers\LottoNumbers.csproj" />
   </ItemGroup>
 </Project>

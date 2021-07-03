@@ -5,13 +5,11 @@ using LottoNumbers.Services;
 using LottoNumbers.ViewModels;
 using LottoNumbers.Views;
 using Moq;
-using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using TestStack.BDDfy;
-using Xamarin.Essentials.Interfaces;
 using Xunit;
 
 namespace LottoNumbers.UnitTests.ViewModels
@@ -33,17 +31,10 @@ namespace LottoNumbers.UnitTests.ViewModels
                 };
 
         private readonly ILottoGameService lottoGameService;
-        private readonly ISettingsService settingsService;
-        private readonly Mock<IPreferences> mockPreferences;
-        private readonly Mock<INavigationService> mockNavigationService;
         private readonly Mock<IRemoteConfigService> mockRemoteConfigService;
-        private readonly Mock<INavigationParameters> mockNavigationParameters;
-
+        
         public MainPageViewModelTests()
         {
-            mockPreferences = new Mock<IPreferences>();
-            mockNavigationParameters = new Mock<INavigationParameters>();
-            mockNavigationService = new Mock<INavigationService>();
             mockRemoteConfigService = new Mock<IRemoteConfigService>();
 
             mockPreferences.Setup(x => x.Get(SettingConstants.PSEUDORANDOM_SEED_KEY, It.IsAny<string>()))
@@ -55,7 +46,6 @@ namespace LottoNumbers.UnitTests.ViewModels
             mockRemoteConfigService.Setup(x => x.GetAsync<Dictionary<string, LottoGameSetting>>(It.IsAny<string>()))
                 .ReturnsAsync(GameSettings);
 
-            settingsService = new SettingsService(mockPreferences.Object);
             lottoGameService = new LottoGameService(mockRemoteConfigService.Object, settingsService);
             ViewModel = new MainPageViewModel(mockNavigationService.Object, lottoGameService);
             this.SetupOnPropertyChanged();
@@ -147,11 +137,7 @@ namespace LottoNumbers.UnitTests.ViewModels
             ViewModel.ShowLuckyCat.Should().BeFalse();
         }
 
-        private void AUserIsOnTheMainPage()
-        {
-            MockPropertyChangedEventHandler.Invocations.Clear();
-            ViewModel.Initialize(mockNavigationParameters.Object);
-        }
+        private void AUserIsOnTheMainPage() => this.NavigatesToViewModel();
 
         private void TheUserIsShownGamesToPick()
         {
