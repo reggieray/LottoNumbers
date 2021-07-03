@@ -39,8 +39,20 @@
     </ContentPage.ToolbarItems>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Text="{Binding GameHeader}"
+               Margin="10, 50, 10, 10"
+               FontSize="Title"
+               HorizontalTextAlignment="Center"
+               HorizontalOptions="CenterAndExpand"/>
 
         <lottie:AnimationView
+            Grid.Row="1"
             Margin="50"
             IsVisible="{Binding ShowLuckyCat}"
 	        Animation="luckycat.json" 
@@ -50,6 +62,7 @@
             HorizontalOptions="FillAndExpand" />
 
         <FlexLayout Direction="Row"
+                    Grid.Row="1"
                     IsVisible="{Binding ShowLuckyCat, Converter={StaticResource inverseBoolConverter}}"
                     VerticalOptions="Center"
                     HorizontalOptions="Center" 
@@ -62,7 +75,8 @@
                     BindableLayout.ItemTemplate="{StaticResource BallTemplate}" />
 
         <StackLayout VerticalOptions="End"
-                      Margin="10">
+                     Grid.Row="2"
+                     Margin="10">
 
             <Label HorizontalTextAlignment="Center"
                    Text="Show Lucky Cat"

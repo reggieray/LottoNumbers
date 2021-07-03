@@ -18,6 +18,13 @@ namespace LottoNumbers.ViewModels
             set { SetProperty(ref _showLuckyCat, value); }
         }
 
+        private string _gameHeader;
+        public string GameHeader
+        {
+            get { return _gameHeader; }
+            set { SetProperty(ref _gameHeader, value); }
+        }
+
         private LottoGame _selectedGame;
         public LottoGame SelectedGame
         {
@@ -74,6 +81,7 @@ namespace LottoNumbers.ViewModels
             ShowLuckyCat = false;
             var lottoNumbers = await _lottoNumberService.GenerateNumbersAsync(SelectedGame.GameKey);
             LottoNumbers = new List<LottoNumber>(lottoNumbers);
+            GameHeader = $"Your {SelectedGame.DisplayName} numbers are:";
         }
 
         private async void OnNavigateToSettings()
@@ -84,6 +92,7 @@ namespace LottoNumbers.ViewModels
         private void OnShowLuckyCat()
         {
             ShowLuckyCat = true;
+            GameHeader = string.Empty;
         }
     }
 }
