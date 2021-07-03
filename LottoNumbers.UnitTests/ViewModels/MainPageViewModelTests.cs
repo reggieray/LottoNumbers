@@ -46,7 +46,7 @@ namespace LottoNumbers.UnitTests.ViewModels
             mockNavigationService = new Mock<INavigationService>();
             mockRemoteConfigService = new Mock<IRemoteConfigService>();
 
-            mockPreferences.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<string>()))
+            mockPreferences.Setup(x => x.Get(SettingConstants.PSEUDORANDOM_SEED_KEY, It.IsAny<string>()))
                 .Returns(DateTime.Now.ToString(SettingConstants.DATE_FORMAT));
 
             mockRemoteConfigService.Setup(x => x.GetAsync<List<LottoGame>>(It.IsAny<string>()))
@@ -65,19 +65,23 @@ namespace LottoNumbers.UnitTests.ViewModels
         public void UserGeneratesLottoNumbers()
         {
             var gameKey = default(string);
+            var useSeed = default(bool);
 
             this.Given(_ => _.AUserIsOnTheMainPage())
             .And(_ => _.TheUserIsShownGamesToPick())
             .And(_ => _.TheUserSelectsALottoGame(gameKey))
+            .And(_ => _.TheUserHasASeedForRandom(useSeed))
             .When(_ => _.TheUserClicksGenerateNumbers())
             .Then(_ => _.TheLottoNumbersAreShown())
             .And(_ => _.TheGameHeaderIs(gameKey))
             .And(_ => _.TheNumbersAreCorrectForGame(gameKey))
-            .WithExamples(new ExampleTable("gameKey")
-            { 
-                "LOTTO",
-                "EURO",
-                "REGIS"
+            .WithExamples(new ExampleTable("gameKey", "useSeed")
+            {
+                { "LOTTO", false },
+                { "EURO", false },
+                { "REGIS", false },
+                { "REGIS", true },
+                { "EURO", true }
             })
             .BDDfy();
         }
@@ -104,6 +108,12 @@ namespace LottoNumbers.UnitTests.ViewModels
             .When(_ => _.TheUserClicksToNavigateToSettingsPage())
             .Then(_ => _.TheUserIsNavigatedToSettingsPage())
             .BDDfy();
+        }
+
+        private void TheUserHasASeedForRandom(bool useSeed)
+        {
+           mockPreferences.Setup(x => x.Get(SettingConstants.USE_PSEUDORANDOM_SEED_KEY, It.IsAny<bool>()))
+               .Returns(useSeed);
         }
 
         private void TheGameHeaderIs(string gameKey)
