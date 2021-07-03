@@ -35,7 +35,6 @@ namespace LottoNumbers.UnitTests.ViewModels
         private readonly ILottoGameService lottoGameService;
         private readonly ISettingsService settingsService;
         private readonly Mock<IPreferences> mockPreferences;
-        private readonly Mock<IApplicationService> mockApplicationService;
         private readonly Mock<INavigationService> mockNavigationService;
         private readonly Mock<IRemoteConfigService> mockRemoteConfigService;
         private readonly Mock<INavigationParameters> mockNavigationParameters;
@@ -43,7 +42,6 @@ namespace LottoNumbers.UnitTests.ViewModels
         public MainPageViewModelTests()
         {
             mockPreferences = new Mock<IPreferences>();
-            mockApplicationService = new Mock<IApplicationService>();
             mockNavigationParameters = new Mock<INavigationParameters>();
             mockNavigationService = new Mock<INavigationService>();
             mockRemoteConfigService = new Mock<IRemoteConfigService>();
@@ -57,7 +55,7 @@ namespace LottoNumbers.UnitTests.ViewModels
             mockRemoteConfigService.Setup(x => x.GetAsync<Dictionary<string, LottoGameSetting>>(It.IsAny<string>()))
                 .ReturnsAsync(GameSettings);
 
-            settingsService = new SettingsService(mockPreferences.Object, mockApplicationService.Object);
+            settingsService = new SettingsService(mockPreferences.Object);
             lottoGameService = new LottoGameService(mockRemoteConfigService.Object, settingsService);
             ViewModel = new MainPageViewModel(mockNavigationService.Object, lottoGameService);
             this.SetupOnPropertyChanged();
@@ -73,6 +71,7 @@ namespace LottoNumbers.UnitTests.ViewModels
             .And(_ => _.TheUserSelectsALottoGame(gameKey))
             .When(_ => _.TheUserClicksGenerateNumbers())
             .Then(_ => _.TheLottoNumbersAreShown())
+            .And(_ => _.TheGameHeaderIs(gameKey))
             .And(_ => _.TheNumbersAreCorrectForGame(gameKey))
             .WithExamples(new ExampleTable("gameKey")
             { 
@@ -105,6 +104,12 @@ namespace LottoNumbers.UnitTests.ViewModels
             .When(_ => _.TheUserClicksToNavigateToSettingsPage())
             .Then(_ => _.TheUserIsNavigatedToSettingsPage())
             .BDDfy();
+        }
+
+        private void TheGameHeaderIs(string gameKey)
+        {
+            var expectedGameHeader = $"Your {LottoGames.First(x => x.GameKey == gameKey).DisplayName} numbers are:";
+            ViewModel.GameHeader.Should().Be(expectedGameHeader);
         }
 
         private void TheUserIsNavigatedToSettingsPage()

@@ -21,8 +21,6 @@ namespace LottoNumbers
             InitializeComponent();
 
             await NavigationService.NavigateAsync($"NavigationPage/{nameof(MainPage)}");
-            var theme = Container.Resolve<ISettingsService>();
-            theme.LoadTheme();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -37,7 +35,6 @@ namespace LottoNumbers
             //Services
             containerRegistry.RegisterSingleton<ILottoGameService, LottoGameService>();
             containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
-            containerRegistry.RegisterSingleton<IApplicationService, ApplicationService>();
 
             //Xamarin Essentials
             containerRegistry.RegisterSingleton<IPreferences, PreferencesImplementation>();
