@@ -4,9 +4,6 @@ Generate numbers for your lottery game. It uses the [Random](https://docs.micros
 
 Built with [Xamarin.Forms](https://xamarin.com)
 
-![](Art/screen-1.png)
-![](Art/screen-2.png)
-
 ## Available 
 
 [![](/Art/google-play-icon.png)](https://play.google.com/store/apps/details?id=dev.matthewregis.lottonumbers)
