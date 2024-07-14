@@ -1,3 +1,7 @@
+> [!IMPORTANT]  
+> As of 2024 this Android app has been delisted due to lack of updates and I have no plan of updating it since Xamarin.Forms is no longer active. This was for demo purposes only.
+
+
 # Lucky Cat Lotto Numbers
 
 Generate numbers for your lottery game. It uses the [Random](https://docs.microsoft.com/en-us/dotnet/api/system.random) class built into dotnet which is a pseudo-random number generator.
